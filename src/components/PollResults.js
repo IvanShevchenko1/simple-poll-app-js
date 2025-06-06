@@ -4,7 +4,7 @@ function PollResults({ poll, onBack }) {
   const totalVotes = poll.options.reduce((a, b) => a + b.votes, 0);
 
   return (
-    <div className="poll-block">
+    <div className="form-block">
       <span className="back-link" onClick={onBack}>
         ← Назад до списку
       </span>

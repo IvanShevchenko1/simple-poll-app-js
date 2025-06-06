@@ -30,7 +30,7 @@ function PollCreate({ addPoll }) {
   };
 
   return (
-    <form className="poll-block" onSubmit={handleSubmit}>
+    <form className="form-block" onSubmit={handleSubmit}>
       <div style={{fontWeight: 600, marginBottom: 8}}>Створити нове опитування</div>
       <input
         type="text"
@@ -49,7 +49,7 @@ function PollCreate({ addPoll }) {
           required={idx < 2}
         />
       ))}
-      <button type="button" className="button secondary" onClick={addOption}>
+      <button type="button" className="button" style={{background:"#eee", color:"#222"}} onClick={addOption}>
         Додати варіант
       </button>
       <br />

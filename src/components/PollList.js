@@ -9,7 +9,7 @@ function PollList({ polls, onSelect, vote }) {
     <div>
       <div style={{fontWeight: 600, marginBottom: 8}}>Список опитувань</div>
       {polls.map((poll, idx) => (
-        <div key={idx} className="poll-block">
+        <div key={idx} className="form-block">
           <div style={{fontWeight: 500, marginBottom: 5}}>{poll.question}</div>
           <div style={{marginBottom: 7}}>
             {poll.options.map((opt, optIdx) => (
