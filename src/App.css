@@ -1,38 +1,110 @@
-.App {
+body {
+  background: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.main-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 24px 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.title {
   text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 18px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.poll-block {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 18px 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+input[type="text"] {
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-top: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.button.secondary {
+  background: #eee;
+  color: #333;
+  margin-left: 8px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button:hover {
+  background: #0d47a1;
+  color: #fff;
+}
+
+.option-btn {
+  display: block;
+  width: 100%;
+  background: #e3f0fc;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.option-btn:hover {
+  background: #bbdefb;
+}
+
+.result-bar {
+  background: #e0e0e0;
+  border-radius: 6px;
+  height: 16px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-fill {
+  background: #1976d2;
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s;
+}
+
+.center {
+  text-align: center;
+  color: #888;
+  margin: 22px 0;
+}
+
+.result-info {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.back-link {
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 15px;
 }
