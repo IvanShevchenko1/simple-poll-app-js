@@ -20,7 +20,7 @@ function Register({ onRegister }) {
 
   return (
     <form className="form-block" onSubmit={handleSubmit}>
-      <div style={{fontWeight: 600, marginBottom: 8}}>Реєстрація користувача</div>
+      <div style={{ fontWeight: 600, marginBottom: 8 }}>Реєстрація користувача</div>
       <input name="name" type="text" placeholder="Ім’я" value={form.name} onChange={handleChange} required />
       <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
       <input name="password" type="password" placeholder="Пароль" value={form.password} onChange={handleChange} required />

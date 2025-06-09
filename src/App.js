@@ -8,73 +8,100 @@ import PollList from "./components/PollList";
 import PollResults from "./components/PollResults";
 import "./App.css";
 
-function App() {
-  const [page, setPage] = useState("login"); // "login", "register", "profile", "about", "poll"
-  const [user, setUser] = useState(null);
+const API_URL = "http://localhost:3001/api"; 
 
-  // Polls
+function App() {
+  const [page, setPage] = useState("login");
+  const [user, setUser] = useState(null);
   const [polls, setPolls] = useState([]);
   const [selectedPoll, setSelectedPoll] = useState(null);
 
-  useEffect(() => {
-    const current = JSON.parse(localStorage.getItem("currentUser"));
-    if (current) {
-      setUser(current);
-      setPage("poll");
-    }
-    const stored = localStorage.getItem("polls");
-    if (stored) setPolls(JSON.parse(stored));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("polls", JSON.stringify(polls));
-  }, [polls]);
-
-  const handleRegister = (data) => {
-    // Save new user in localStorage
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
-    users.push(data);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", JSON.stringify(data));
-    setUser(data);
-    setPage("poll");
+  const fetchPolls = () => {
+    fetch(`${API_URL}/polls`)
+      .then(res => res.json())
+      .then(setPolls)
+      .catch(() => setPolls([]));
   };
 
-  const handleLogin = (email, password) => {
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
-    const found = users.find(u => u.email === email && u.password === password);
-    if (found) {
-      localStorage.setItem("currentUser", JSON.stringify(found));
-      setUser(found);
-      setPage("poll");
-      return true;
-    }
-    return false;
+  useEffect(() => {
+    fetchPolls();
+  }, []);
+
+  const handleRegister = (data) => {
+    fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          setUser({ ...data, id: res.userId });
+          setPage("poll");
+        } else {
+          alert(res.error || "Помилка реєстрації");
+        }
+      })
+      .catch(() => alert("Помилка з'єднання з сервером"));
+  };
+
+  const handleLogin = (email, password, setErr) => {
+    fetch(`${API_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          setUser({ email, id: res.userId });
+          setPage("poll");
+          setErr(false);
+        } else {
+          setErr(true);
+        }
+      })
+      .catch(() => setErr(true));
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
     setUser(null);
     setPage("login");
   };
 
-  const addPoll = (poll) => {
-    setPolls([...polls, poll]);
+  const addPoll = (pollData, reset) => {
+    fetch(`${API_URL}/polls`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(pollData)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          fetchPolls();
+          if (reset) reset();
+        } else {
+          alert("Помилка створення опитування");
+        }
+      })
+      .catch(() => alert("Помилка з'єднання з сервером"));
   };
 
   const vote = (pollId, optionIdx) => {
-    setPolls(
-      polls.map((poll, idx) =>
-        idx === pollId
-          ? {
-              ...poll,
-              options: poll.options.map((opt, i) =>
-                i === optionIdx ? { ...opt, votes: opt.votes + 1 } : opt
-              ),
-            }
-          : poll
-      )
-    );
+    fetch(`${API_URL}/polls/${pollId}/vote`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ option: optionIdx })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          fetchPolls();
+        } else {
+          alert("Помилка голосування");
+        }
+      })
+      .catch(() => alert("Помилка з'єднання з сервером"));
   };
 
   return (
@@ -100,7 +127,7 @@ function App() {
       )}
       {selectedPoll !== null && (
         <PollResults
-          poll={polls[selectedPoll]}
+          poll={polls.find(p => p.id === selectedPoll)}
           onBack={() => setSelectedPoll(null)}
         />
       )}

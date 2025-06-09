@@ -1,6 +1,8 @@
 import React from "react";
 
 function PollResults({ poll, onBack }) {
+  if (!poll) return null;
+
   const totalVotes = poll.options.reduce((a, b) => a + b.votes, 0);
 
   return (
@@ -8,10 +10,10 @@ function PollResults({ poll, onBack }) {
       <span className="back-link" onClick={onBack}>
         ← Назад до списку
       </span>
-      <div style={{fontWeight: 600, marginBottom: 8}}>{poll.question}</div>
+      <div style={{ fontWeight: 600, marginBottom: 8 }}>{poll.question}</div>
       {poll.options.map((opt, idx) => (
-        <div key={idx} style={{marginBottom: 12}}>
-          <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div key={idx} style={{ marginBottom: 12 }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <span>{opt.text}</span>
             <span className="result-info">
               {opt.votes} голос(ів) (
@@ -34,7 +36,7 @@ function PollResults({ poll, onBack }) {
           </div>
         </div>
       ))}
-      <div style={{marginTop: 10, color: "#666"}}>
+      <div style={{ marginTop: 10, color: "#666" }}>
         Всього голосів: {totalVotes}
       </div>
     </div>

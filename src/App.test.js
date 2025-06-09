@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('рендерить форму логіну якщо неавторизовано', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText(/Вхід до сайту/i)).toBeInTheDocument();
 });
